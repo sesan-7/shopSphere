@@ -217,7 +217,9 @@ const ProductDetails = () => {
 
   // Check if current user has already reviewed
   const userReview = user
-    ? product.reviews?.find((r) => r.user === user._id)
+    ? product.reviews?.find(
+        (r) => String(r.user?._id || r.user) === String(user._id)
+      )
     : null;
 
   return (
@@ -457,7 +459,8 @@ const ProductDetails = () => {
                   <p className="text-gray-600 font-medium leading-relaxed">
                     {rev.comment}
                   </p>
-                  {user && rev.user === user._id && (
+                  {user &&
+                    String(rev.user?._id || rev.user) === String(user._id) && (
                     <div className="flex gap-3 pt-1">
                       <button
                         onClick={() => handleEditClick(rev)}
